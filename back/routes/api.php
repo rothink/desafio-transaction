@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-use \App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +35,16 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::resource('user', 'UserController');
 
     /**
-     * Transferência / transaction
+     * Transaferecia / Transaction
+     *
+     * O método resource, engloba todo o REST
+     * GET transaction
+     * GET transaction/id
+     * POST transaction
+     * PUT transaction/id
+     * DELETE transaction/id
+     *
+     * https://stackoverflow.com/questions/23505875/laravel-routeresource-vs-routecontroller
      */
     Route::get('transaction/pre-requisite', 'TransferenciaController@preRequisite');
     Route::resource('transaction', 'TransferenciaController');
