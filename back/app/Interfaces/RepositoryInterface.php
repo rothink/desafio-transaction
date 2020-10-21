@@ -2,7 +2,7 @@
 
 namespace App\Interfaces;
 
-abstract class RepositoryInterface
+interface RepositoryInterface
 {
-    abstract public function formatParams($params);
+    public function formatParams($params);
 }

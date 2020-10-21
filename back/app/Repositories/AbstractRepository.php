@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
-abstract class AbstractRepository extends RepositoryInterface
+abstract class AbstractRepository implements RepositoryInterface
 {
     /**
      * @return mixed

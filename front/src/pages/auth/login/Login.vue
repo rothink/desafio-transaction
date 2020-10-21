@@ -10,9 +10,9 @@
             <div class="wrapper fadeInDown">
                 <div id="formContent">
                     <!-- Icon -->
-                    <div class="fadeIn first">
+                    <div class="fadeIn first div-logo">
                         <v-avatar size="140">
-                            <img :src="getAvatarLogo()" class="logo" alt="logo-transferencia"/>
+                            <img :src="getAvatarLogo()" alt="logo-transferencia"/>
                         </v-avatar>
                     </div>
 
@@ -626,7 +626,7 @@ input[type='text']:placeholder {
     box-sizing: border-box;
 }
 
-.logo {
-    padding-top: 10px;
+.div-logo {
+    padding-top: 15px;
 }
 </style>

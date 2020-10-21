@@ -23,8 +23,9 @@ class AuthController extends Controller
     }
 
     /**
+     * Busca o usuario logado
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
     public function me(Request $request)

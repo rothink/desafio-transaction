@@ -10,14 +10,36 @@ use Illuminate\Support\Facades\Auth;
 
 class TransferenciaService extends AbstractService
 {
+    /**
+     * Repository do proprio service Transferencia
+     * @var TransferenciaRepository
+     */
     protected $repository;
+
+    /**
+     * @var UserService
+     */
     protected $userService;
+
+    /**
+     * @var AutorizadorExternoService
+     */
+    protected $autorizadorExternoService;
+
+    /**
+     * @var string[]
+     */
     protected $with = ['payee', 'payer'];
 
-    public function __construct(TransferenciaRepository $repository, UserService $userService)
+    public function __construct(
+        TransferenciaRepository $repository,
+        UserService $userService,
+        AutorizadorExternoService $autorizadorExternoService
+    )
     {
         $this->repository = $repository;
         $this->userService = $userService;
+        $this->autorizadorExternoService = $autorizadorExternoService;
     }
 
     /**
@@ -35,6 +57,7 @@ class TransferenciaService extends AbstractService
         $this->verificaSeTransferenciaSaoEntreUsuariosDiferentes($data);
         $this->verificarSeUsuarioPagadorNaoEhLojista($data);
         $this->verificarSeUsuarioPagadorTemSaldo($data);
+
         return $data;
     }
 
@@ -42,7 +65,8 @@ class TransferenciaService extends AbstractService
      * Após salvar, ainda na mesma transação
      * faz a atualização da carteira dos usuários
      * @param $entity
-     * @param $params
+     * @param array $params
+     * @throws \Exception
      */
     public function afterSave($entity, $params)
     {
@@ -54,6 +78,11 @@ class TransferenciaService extends AbstractService
          * Atualiza a carteira do payee
          */
         $this->atualizaCarteiraDoBeneficiario($entity, $params);
+
+        /**
+         * Verificação se serviço externo AUTORIZA a transação.
+         */
+        $this->consultarServicoAutorizadorExterno();
     }
 
     /**
@@ -69,6 +98,27 @@ class TransferenciaService extends AbstractService
         return $arr;
     }
 
+    /**
+     * Funcao que busca o servico autorizador externo
+     * existente para finalizacao de uma transacao entre usuarios
+     * @throws \Exception
+     */
+    private function consultarServicoAutorizadorExterno()
+    {
+        if (!$this->autorizadorExternoService->finalizarTransferencia()) {
+            throw new \Exception(
+                TransferenciaExceptionMessages::$TRANSFERENCIA_NAO_AUTORIZADA_POR_SERVICO_EXTERNO
+            );
+        }
+    }
+
+    /**
+     * Funcao existente para atualizar a carteira do pagador
+     * Sempre diminuindo o valor da carteira
+     * @param $entity
+     * @param $params
+     * @throws \Exception
+     */
     private function atualizaCarteiraDoPagador($entity, $params)
     {
         $idUsuarioPagador = $params['payer'];
@@ -78,6 +128,13 @@ class TransferenciaService extends AbstractService
         $this->userService->update($idUsuarioPagador, $userPagador);
     }
 
+    /**
+     * Validaçao de regra de negocio
+     * que diz que apenas usuarios
+     * fazem transferencia no sistema
+     * @param $params
+     * @throws \Exception
+     */
     private function verificarSeUsuarioPagadorNaoEhLojista($params)
     {
         $idUsuarioPagador = $params['payer'];
@@ -87,6 +144,12 @@ class TransferenciaService extends AbstractService
         }
     }
 
+    /**
+     * Atualizacao da carteira do beneficiario
+     * @param $entity
+     * @param $params
+     * @throws \Exception
+     */
     private function atualizaCarteiraDoBeneficiario($entity, $params)
     {
         $idUsuarioBeneficiario = $params['payee'];
@@ -96,6 +159,13 @@ class TransferenciaService extends AbstractService
         $this->userService->update($idUsuarioBeneficiario, $userBeneficiario);
     }
 
+    /**
+     * Antes de transferir,
+     * e importante saber se o usuario em questao
+     * possui saldo suficiente na sua carteira.
+     * @param $data
+     * @throws \Exception
+     */
     private function verificarSeUsuarioPagadorTemSaldo($data)
     {
         $carteiraUsuarioLogado = Auth::user()->carteira;
@@ -105,6 +175,12 @@ class TransferenciaService extends AbstractService
         }
     }
 
+    /**
+     * Um usuario nao pode transferir dinheiro
+     * para si mesmo!
+     * @param $data
+     * @throws \Exception
+     */
     private function verificaSeTransferenciaSaoEntreUsuariosDiferentes($data)
     {
         $payer = $data['payer'];
@@ -115,6 +191,12 @@ class TransferenciaService extends AbstractService
         }
     }
 
+    /**
+     * Verifica se a transferencia
+     * e maior que ZERO
+     * @param $data
+     * @throws \Exception
+     */
     private function verificaSeValorTransferidoEhMaiorQueZero($data)
     {
         $valor = Number::formatCurrencyBr($data['value']);
@@ -123,6 +205,13 @@ class TransferenciaService extends AbstractService
         }
     }
 
+    /**
+     * Por seguranca, existe essa verificaçao pelo token
+     * que garente que o usuario que esta logado,
+     * e exatamente o usuario que esta pagando alguem.
+     * @param $data
+     * @throws \Exception
+     */
     private function verificaSeUsuarioLogadoCondizComParametros($data)
     {
         $idUserLogado = Auth::user()->id;

@@ -26,6 +26,7 @@ class UserRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => 'required|unique',
+            'tipo_user_id' => 'required',
             'cpf' => '',
             'cnpj' => '',
         ];
@@ -40,6 +41,7 @@ class UserRequest extends FormRequest
         return  [
             'name' => 'Nome',
             'email' => 'E-mail',
+            'tipo_user_id' => 'Tipo de usuário',
             'cpf' => 'CPF',
             'cnpj' => 'CNPJ'
         ];

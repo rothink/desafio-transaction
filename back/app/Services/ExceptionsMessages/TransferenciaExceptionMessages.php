@@ -9,4 +9,5 @@ class TransferenciaExceptionMessages
     public static $NAO_PODE_TRANSFERIR_PARA_VOCE_MESMO = 'Você não pode transferir para você mesmo.';
     public static $LOJISTAS_NAO_FAZEM_TRANSFERENCIA = 'Lojistas não podem fazer transferências.';
     public static $SALDO_INSUFICIENTE = 'Saldo insuficiente para transferir';
+    public static $TRANSFERENCIA_NAO_AUTORIZADA_POR_SERVICO_EXTERNO = 'Transferência não autorizada por serviço externo';
 }

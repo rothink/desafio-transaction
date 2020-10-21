@@ -17,7 +17,7 @@ abstract class AbstractController extends Controller
 
     /**
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
@@ -89,7 +89,7 @@ abstract class AbstractController extends Controller
 
     /**
      * @param int $id
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(int $id)
     {
@@ -123,7 +123,7 @@ abstract class AbstractController extends Controller
 
     /**
      * @param null $id
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function preRequisite($id = null)
     {
@@ -133,7 +133,7 @@ abstract class AbstractController extends Controller
 
 
     /**
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function toSelect()
     {

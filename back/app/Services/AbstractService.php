@@ -5,9 +5,8 @@ namespace App\Services;
 
 use App\Interfaces\ServiceInterface;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
-abstract class AbstractService extends ServiceInterface
+abstract class AbstractService implements ServiceInterface
 {
     /**
      * @param $data
