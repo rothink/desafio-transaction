@@ -1,0 +1,110 @@
+{
+	"name": "app",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"serve": "vue-cli-service serve",
+		"build": "vue-cli-service build",
+		"lint": "vue-cli-service lint"
+	},
+	"dependencies": {
+		"@babel/preset-env": "^7.10.2",
+		"axios": "^0.19.0",
+		"core-js": "^3.4.3",
+		"eslint-config-prettier": "^6.11.0",
+		"eslint-plugin-prettier": "^3.1.3",
+		"facebook-login-vuejs": "^2.1.3",
+		"global": "^4.4.0",
+		"jquery": "^3.5.1",
+		"moment": "^2.27.0",
+		"node-sass": "^4.14.1",
+		"sortablejs": "^1.10.2",
+		"sweetalert2": "^9.15.1",
+		"v-money": "^0.8.1",
+		"vform": "^1.0.1",
+		"vue": "^2.6.10",
+		"vue-axios": "^2.1.5",
+		"vue-cookies": "^1.6.1",
+		"vue-moment": "^4.1.0",
+		"vue-router": "^3.1.3",
+		"vue-sweetalert2": "^3.0.5",
+		"vue-the-mask": "^0.11.1",
+		"vuetify": "^2.3.4",
+		"vuetify-avatar-uploader": "^0.3.0",
+		"vuetify-money": "^1.0.3",
+		"vuetify-toast-snackbar": "^0.6.1",
+		"vuetify-toast-snackbar-ng": "^0.7.3",
+		"vuex": "^3.1.2",
+		"vuex-persistedstate": "^3.0.1"
+	},
+	"devDependencies": {
+		"@vue/cli-plugin-babel": "^4.1.0",
+		"@vue/cli-plugin-eslint": "^4.1.0",
+		"@vue/cli-plugin-router": "^4.1.0",
+		"@vue/cli-plugin-vuex": "^4.1.0",
+		"@vue/cli-service": "^4.1.0",
+		"babel-eslint": "^10.0.3",
+		"eslint": "^5.16.0",
+		"eslint-plugin-vue": "^5.0.0",
+		"material-design-icons-iconfont": "^5.0.1",
+		"prettier": "^2.0.5",
+		"sass": "^1.19.0",
+		"sass-loader": "^8.0.2",
+		"vue-cli-plugin-vuetify": "^2.0.2",
+		"vue-template-compiler": "^2.6.10",
+		"vuetify-loader": "^1.3.0"
+	},
+	"eslintConfig": {
+		"root": true,
+		"env": {
+			"node": true
+		},
+		"extends": [
+			"plugin:vue/essential",
+			"plugin:prettier/recommended",
+			"eslint:recommended"
+		],
+		"parserOptions": {
+			"parser": "babel-eslint"
+		},
+		"rules": {
+			"vue/no-unused-components": "off",
+			"vue/no-unused-vars": "off",
+			"vue/no-async-in-computed-properties": "off",
+			"vue/no-dupe-keys": "off",
+			"vue/no-duplicate-attributes": "off",
+			"vue/no-parsing-error": "off",
+			"vue/no-reserved-keys": "off",
+			"vue/no-shared-component-data": "off",
+			"vue/no-side-effects-in-computed-properties": "off",
+			"vue/no-template-key": "off",
+			"vue/no-textarea-mustache": "off",
+			"vue/no-use-v-if-with-v-for": "off",
+			"vue/require-component-is": "off",
+			"vue/require-prop-type-constructor": "off",
+			"vue/valid-v-model": "warning",
+			"vue/valid-v-on": "warning",
+			"vue/valid-v-once": "warning",
+			"vue/valid-v-pre": "warning",
+			"vue/valid-v-show": "warning",
+			"vue/valid-v-text": "warning",
+			"vue/require-render-return": "off",
+			"vue/require-v-for-key": "off",
+			"vue/require-valid-default-prop": "off",
+			"vue/use-v-on-exact": "off",
+			"vue/valid-template-root": "off",
+			"vue/valid-v-bind": "off",
+			"vue/valid-v-cloak": "off",
+			"vue/valid-v-else-if": "off",
+			"vue/valid-v-else": "off",
+			"vue/valid-v-for": "off",
+			"vue/valid-v-html": "off",
+			"vue/valid-v-if": "off",
+			"vue/return-in-computed-property": "off"
+		}
+	},
+	"browserslist": [
+		"> 1%",
+		"last 2 versions"
+	]
+}

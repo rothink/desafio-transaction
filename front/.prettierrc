@@ -1,0 +1,10 @@
+{
+   "trailingComma": "es5",
+   "tabWidth": 3,
+   "singleQuote": true,
+   "semi": false,
+   "arrowParens": "avoid",
+   "jsxBracketSameLine": true,
+   "proseWrap": "preserve",
+   "vueIndentScriptAndStyle": true
+}

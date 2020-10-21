@@ -1,0 +1,29 @@
+{
+	"extends": [
+		"plugin:vue/essential",
+		"plugin:prettier/recommended",
+		"eslint:recommended"
+	],
+	"rules": {
+		"no-unused-vars": [0, { "argsIgnorePartern": "res|next|~err" }],
+		"arrow-body-style": 0,
+		"no-param-reassign": 0,
+		"eqeqeq": ["error", "smart"],
+		"no-shadow": "off",
+		"allowIndentationTabs": true,
+		"no-console": 0,
+		"import": 0,
+		"func-names": 0,
+		"space-before-function-paren": 0,
+		"comma-dangle": 0,
+		"max-len": 0,
+		"no-underscore-dangle": 0,
+		"radix": 0,
+		"indent": [1, "tab"],
+		"arrow-parens": [2, "as-needed"],
+		"function-paren-newline": ["error", "consistent"],
+		"no-use-before-define": ["error", { "functions": false, "variables": false }],
+		"no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+		"no-tabs": 0
+	}
+}
