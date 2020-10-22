@@ -15,11 +15,6 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password')->nullable();
-            $table->decimal('carteira', 20, 2)->default(0.0);
 
             $table->unsignedInteger('tipo_user_id');
             $table->foreign('tipo_user_id')
@@ -27,7 +22,14 @@ class CreateUsersTable extends Migration
                 ->on('tipo_user')
                 ->onDelete('cascade');
 
-            $table->rememberToken();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password')->nullable();
+            $table->decimal('carteira', 20, 2)->default(0.0);
+
+
+
             $table->timestamps();
         });
     }

@@ -39,3 +39,9 @@ Estrutura
 
 - Rodar o servidor
     > php artisan serve
+
+
+
+mysql -u root 
+
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('root');
