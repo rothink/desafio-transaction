@@ -91,6 +91,9 @@ class TransferenciaService extends AbstractService
          */
         $this->consultarServicoAutorizadorExterno();
 
+        /**
+         * Notifica o usuário do recebimento da transferência realizada, usando um serviço externo
+         */
         $this->notificarUsuarioBeneficiarioQueTransferenciaFoiRealizada($entity, $params);
     }
 

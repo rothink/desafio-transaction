@@ -59,9 +59,9 @@
                                             v-bind="money"
                                         />
                                     </template>
-                                    <template v-slot:item.data_transferencia_formatted="props">
+                                    <template v-slot:item.data_transferencia="props">
                                         <strong>
-                                            {{ props.item.data_transferencia_formatted }}
+                                            {{ props.item.data_transferencia }}
                                         </strong>
                                     </template>
                                 </v-data-table>
@@ -120,7 +120,7 @@ export default {
             headersTransferencia: [
                 {text: 'Pagador(a)', value: 'payer', sortable: false, align: 'left'},
                 {text: 'Beneficiário(a)', value: 'payee', sortable: false, align: 'center'},
-                {text: 'Data', value: 'data_transferencia_formatted', sortable: false, align: 'center'},
+                {text: 'Data', value: 'data_transferencia', sortable: false, align: 'center'},
                 {text: 'Valor', value: 'value', sortable: false, align: 'left'},
             ],
         };

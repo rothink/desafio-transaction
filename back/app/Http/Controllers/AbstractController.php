@@ -11,8 +11,9 @@ abstract class AbstractController extends Controller
 {
     protected $with = [];
     protected $service;
-    protected $requestValidate = '';
-    protected $requestValidateUpdate = '';
+    protected $resource;
+    protected $requestValidate;
+    protected $requestValidateUpdate;
 
 
     /**
@@ -21,7 +22,9 @@ abstract class AbstractController extends Controller
      */
     public function index(Request $request)
     {
-        return $this->ok($this->service->getAll($request->all(), $this->with));
+        $items = $this->service->getAll($request->all(), $this->with);
+        $items = ($this->resource) ? $this->resource::collection($items) : $items;
+        return $this->ok($items);
     }
 
     /**
@@ -31,7 +34,7 @@ abstract class AbstractController extends Controller
     public function store(Request $request)
     {
         try {
-            if (!empty($this->requestValidate)) {
+            if ($this->requestValidate) {
                 $requestValidate = app($this->requestValidate);
                 $request->validate($requestValidate->rules());
             }

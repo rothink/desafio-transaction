@@ -47,6 +47,10 @@ class Transferencia extends Model
         return $this->belongsTo(User::class, 'payer', 'id');
     }
 
+    /**
+     * Retorna a data formatada
+     * @return string
+     */
     public function getDataTransferenciaFormattedAttribute()
     {
         return Carbon::createFromTimeStamp(strtotime($this->created_at))->format('d/m/Y  H:m:s');
