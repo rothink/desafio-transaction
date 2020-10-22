@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Models\TipoUser;
 use App\Models\Transferencia;
 use App\Models\User;
+use App\Services\AutorizadorExternoService;
 use App\Services\ExceptionsMessages\TransferenciaExceptionMessages;
 use App\Services\TransferenciaService;
 use App\Services\UserService;
@@ -121,9 +122,28 @@ class TransferenciaTest extends TestCase
         $this->save($payload);
     }
 
+    /**
+     * Exception de nao autorizacao pelo servico externo
+     * @throws \Exception
+     */
     public function test_transferir_com_falha_servico_autorizacao_externa_exception():void
     {
-        //todo fazer o teste nitrio
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage(TransferenciaExceptionMessages::$TRANSFERENCIA_NAO_AUTORIZADA_POR_SERVICO_EXTERNO);
+
+        /**
+         * Mock de serviço externo
+         */
+        $this
+            ->mock(AutorizadorExternoService::class)
+            ->shouldReceive('finalizarTransferencia')
+            ->andReturnFalse();
+
+        $payload = $this->getPayload();
+
+        $userAuth = $this->findUserById($payload['payer']);
+        $this->be($userAuth);
+        $this->save($payload);
     }
 
     /**
