@@ -2,10 +2,6 @@
 
 namespace App\Services;
 
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Http;
-
-
 class AutorizadorExternoService extends AbstractService
 {
     protected $url;

@@ -3,9 +3,6 @@
 namespace App\Services;
 
 use App\Models\User;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Http;
-
 
 class NotificacaoExternaService extends AbstractService
 {
