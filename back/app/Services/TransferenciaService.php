@@ -27,6 +27,11 @@ class TransferenciaService extends AbstractService
     protected $autorizadorExternoService;
 
     /**
+     * @var NotificacaoExternaService
+     */
+    protected $notificacaoExternaService;
+
+    /**
      * @var string[]
      */
     protected $with = ['payee', 'payer'];
@@ -34,12 +39,14 @@ class TransferenciaService extends AbstractService
     public function __construct(
         TransferenciaRepository $repository,
         UserService $userService,
-        AutorizadorExternoService $autorizadorExternoService
+        AutorizadorExternoService $autorizadorExternoService,
+        NotificacaoExternaService $notificacaoExternaService
     )
     {
         $this->repository = $repository;
         $this->userService = $userService;
         $this->autorizadorExternoService = $autorizadorExternoService;
+        $this->notificacaoExternaService = $notificacaoExternaService;
     }
 
     /**
@@ -83,6 +90,8 @@ class TransferenciaService extends AbstractService
          * Verificação se serviço externo AUTORIZA a transação.
          */
         $this->consultarServicoAutorizadorExterno();
+
+        $this->notificarUsuarioBeneficiarioQueTransferenciaFoiRealizada($entity, $params);
     }
 
     /**
@@ -96,6 +105,18 @@ class TransferenciaService extends AbstractService
             $this->userService->getRepository()->list()
         );
         return $arr;
+    }
+
+    /**
+     * @param $entity
+     * @param $params
+     * @throws \Exception
+     */
+    private function notificarUsuarioBeneficiarioQueTransferenciaFoiRealizada($entity, $params)
+    {
+        $userPagador = $this->userService->find($params['payer']);
+        $userBeneficiario = $this->userService->find($params['payee']);
+        $this->notificacaoExternaService->notificarUsuario($userPagador, $userBeneficiario);
     }
 
     /**

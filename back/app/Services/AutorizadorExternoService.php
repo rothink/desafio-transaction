@@ -6,7 +6,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 
 
-class AutorizadorExternoService
+class AutorizadorExternoService extends AbstractService
 {
     protected $url;
     const TRANSACAO_AUTORIZADA = 'Autorizado';
@@ -23,9 +23,6 @@ class AutorizadorExternoService
      */
     public function finalizarTransferencia(): bool
     {
-        $response = Http::get($this->url);
-        return
-            $response->status() === Response::HTTP_OK &&
-            $response->json()['message'] == self::TRANSACAO_AUTORIZADA;
+        return $this->makeRequestExterna($this->url, self::TRANSACAO_AUTORIZADA);
     }
 }

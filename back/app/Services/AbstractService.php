@@ -1,8 +1,9 @@
 <?php
 
-
 namespace App\Services;
 
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Http;
 use App\Interfaces\ServiceInterface;
 use Illuminate\Support\Facades\Auth;
 
@@ -159,5 +160,18 @@ abstract class AbstractService implements ServiceInterface
     public function getUserAuth()
     {
         return Auth::user();
+    }
+
+    /**
+     * @param string $url
+     * @param string $message
+     * @return bool
+     */
+    public function makeRequestExterna(string $url, string $messageComparation): bool
+    {
+        $response = Http::get($url);
+        return
+            $response->status() === Response::HTTP_OK &&
+            $response->json()['message'] == $messageComparation;
     }
 }

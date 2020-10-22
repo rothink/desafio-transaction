@@ -121,6 +121,11 @@ class TransferenciaTest extends TestCase
         $this->save($payload);
     }
 
+    public function test_transferir_com_falha_servico_autorizacao_externa_exception():void
+    {
+        //todo fazer o teste nitrio
+    }
+
     /**
      * Retorna o usuario pelo ID
      * @param $id
