@@ -1,29 +1,4 @@
-# minha grana back
-
-Estrutura
-
-> /var/www/html
->
->maria-amelia-doces
->
->back
->
->front 
-
-- Criar uma pasta www/html/maria-amelia-doces
-    >  mkdir /var/www/html/maria-amelia-doces
-                                                
-- Dentro da pasta criada a cima, clonar o repositório back-end
-    > git clone https://github.com/rothink/maria-amelia-doces-back.git back
-                                                                 
-- Entrar na pasta <strong>back</strong>
-    > cd /var/www/html/maria-amelia-doces/back
-                  
-- Instalar as dependências                  
-    > composer install
-
-- No banco de dados, crie um banco com o seguinte comando:
-    > create database maria_amelia_doces;
+# Desafio - Backend
 
 - Criar um arquivo .env & ajustar user e password
     > sudo cp .env.example .env && sudo chmod 777 -R .env
@@ -40,8 +15,22 @@ Estrutura
 - Rodar o servidor
     > php artisan serve
 
+docker exec -it app php artisan optimize:clear
+
+docker-compose exec app php artisan key:generate
+
+Criar usuario mysql
+
+docker-compose exec db bash
+
+mysql -u root -p
+
+GRANT ALL ON laravel.* TO 'root'@'%' IDENTIFIED BY 'root';
+
+FLUSH PRIVILEGES;
+
+EXIT;
+
+docker-compose exec app php artisan migrate:fresh --seed
 
 
-mysql -u root 
-
-SET PASSWORD FOR 'root'@'localhost' = PASSWORD('root');

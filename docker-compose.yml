@@ -1,0 +1,81 @@
+version: '3'
+services:
+
+  #PHP Service
+  back:
+    build:
+      context: .
+      dockerfile: docker/back/Dockerfile
+    image: digitalocean.com/php
+    container_name: back
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: back
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./back:/var/www
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - app-network
+
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "8000:80"
+      - "443:443"
+    volumes:
+      - ./back:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - app-network
+
+  #MySQL Service
+  db:
+    image: mysql:5.7.22
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: desafio
+      MYSQL_ROOT_PASSWORD: root
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - dbdata:/var/lib/mysql/
+      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - app-network
+
+  front:
+    container_name: front
+    build:
+      context: .
+      dockerfile: docker/front/Dockerfile
+    volumes:
+      - ./front:/app
+    networks:
+      - app-network
+    ports:
+      - "8080:8080"
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+#Volumes
+volumes:
+  dbdata:
+    driver: local
+
+
+#https://www.digitalocean.com/community/tutorials/how-to-set-up-laravel-nginx-and-mysql-with-docker-compose-pt
+#https://br.vuejs.org/v2/cookbook/dockerize-vuejs-app.html#Exemplo-Base
+#https://mherman.org/blog/dockerizing-a-vue-app/
