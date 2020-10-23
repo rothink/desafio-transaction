@@ -33,8 +33,8 @@ class UserService extends AbstractService
      */
     public function getUserAuth()
     {
-        $user = Auth::user();
-        return $this->fetchUser($user->getAuthIdentifier());
+        return Auth::user();
+//        return $this->fetchUser($user->getAuthIdentifier());
     }
 
     /**
@@ -72,39 +72,12 @@ class UserService extends AbstractService
     }
 
     /**
-     * @param $entity
-     * @param $params
-     */
-    public function afterUpdate($entity, $params)
-    {
-        if (isset($params['role_id']) && !empty($params['role_id'])) {
-            $this->repository->assignRole($entity, $params['role_id']);
-        }
-    }
-
-    /**
      * @return mixed
      */
     public function preRequisite()
     {
         $arr['sexo'] = generateSelectOption(['M' => 'Masculino', 'F' => 'Feminino']);
         return $arr;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUserAdmin()
-    {
-        return $this->repository->getUserAdmin();
-    }
-
-    public function uploadAvatar($data, $id)
-    {
-        $disk = Storage::disk('s3');
-        $avatar = $disk->put("/images/users/$id", $data['file'], 'public');
-        $this->repository->updateUser($this->repository->find($id), ['avatar' => $avatar]);
-        return $this->repository->find($id)->photo_url;
     }
 
     /**

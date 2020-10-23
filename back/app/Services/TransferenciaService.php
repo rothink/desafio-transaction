@@ -192,7 +192,7 @@ class TransferenciaService extends AbstractService
      */
     private function verificarSeUsuarioPagadorTemSaldo($data)
     {
-        $carteiraUsuarioLogado = Auth::user()->carteira;
+        $carteiraUsuarioLogado = $this->userService->getUserAuth()->carteira;
         $valorTransferencia = $data['value'];
         if ($carteiraUsuarioLogado < $valorTransferencia) {
             throw new \Exception(TransferenciaExceptionMessages::$SALDO_INSUFICIENTE);

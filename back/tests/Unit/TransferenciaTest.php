@@ -24,8 +24,18 @@ class TransferenciaTest extends TestCase
     {
         $payload = $this->getPayload();
 
-        $userAuth = $this->findUserById($payload['payer']);
+        $userAuth = $this->getPagador();
         $this->be($userAuth);
+
+        $this
+            ->mock(UserService::class)
+            ->shouldReceive('getUserAuth')
+            ->andReturn($userAuth)
+            ->shouldReceive('find')
+            ->andReturn($userAuth)
+            ->shouldReceive('update')
+            ->andReturnTrue();
+
 
         $transferencia = $this->save($payload);
 
@@ -45,7 +55,7 @@ class TransferenciaTest extends TestCase
 
         $payload = $this->getPayload(9999999999);
 
-        $userAuth = $this->findUserById($payload['payer']);
+        $userAuth = $this->getPagador();
         $this->be($userAuth);
 
         $this->save($payload);
@@ -62,7 +72,7 @@ class TransferenciaTest extends TestCase
 
         $payload = $this->getPayload(0.00);
 
-        $userAuth = $this->findUserById($payload['payer']);
+        $userAuth = $this->getPagador($payload['payer']);
         $this->be($userAuth);
 
         $this->save($payload);
@@ -114,10 +124,18 @@ class TransferenciaTest extends TestCase
 
         $payload = $this->getPayload();
 
-        $payload['payer'] = $this->getBeneficiario('beneficiario2@user.com')->id;
+//        $payload['payer'] = $this->getBeneficiario('beneficiario2@user.com')->id;
 
         $userAuth = $this->findUserById($payload['payer']);
         $this->be($userAuth);
+
+        $userLojistaMock = new User();
+        $userLojistaMock->tipo_user_id = TipoUser::LOJISTA;
+//
+        $this
+            ->mock(UserService::class)
+            ->shouldReceive('find')
+            ->andReturn($userLojistaMock);
 
         $this->save($payload);
     }
@@ -141,7 +159,7 @@ class TransferenciaTest extends TestCase
 
         $payload = $this->getPayload();
 
-        $userAuth = $this->findUserById($payload['payer']);
+        $userAuth = $this->getPagador();
         $this->be($userAuth);
         $this->save($payload);
     }
@@ -176,11 +194,14 @@ class TransferenciaTest extends TestCase
     private function getPagador(): User
     {
         $pagador = [
+            'id' => 1,
             'name' => 'Pagador',
             'email' => 'pagador@user.com',
-            'tipo_user_id' => TipoUser::COMUM
+            'tipo_user_id' => TipoUser::COMUM,
+            'carteira' => 100.00
         ];
-        return factory(User::class)->create($pagador);
+        return new User($pagador);
+//        return factory(User::class)->create($pagador);
     }
 
     /**
@@ -191,11 +212,14 @@ class TransferenciaTest extends TestCase
     private function getBeneficiario($email = 'beneficiario@user.com'): User
     {
         $beneficiario = [
+            'id' => 2,
             'name' => 'Beneficiario',
             'email' => $email,
-            'tipo_user_id' => TipoUser::LOJISTA
+            'tipo_user_id' => TipoUser::LOJISTA,
+            'carteira' => 10.000
         ];
-        return factory(User::class)->create($beneficiario);
+        return new User($beneficiario);
+//        return factory(User::class)->create($beneficiario);
     }
 
     /**
