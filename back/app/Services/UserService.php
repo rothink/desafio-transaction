@@ -65,7 +65,7 @@ class UserService extends AbstractService
     public function save($params, $actionByUser = false)
     {
         DB::beginTransaction();
-        $this->validadeOnInsert($params);
+        $this->validateOnInsert($params);
         $user = $this->repository->create($params);
         DB::commit();
         return $user;
@@ -84,7 +84,7 @@ class UserService extends AbstractService
      * @param $params
      * @throws \Exception
      */
-    public function validadeOnInsert($params)
+    public function validateOnInsert($params)
     {
         if ($this->repository->existByEmail($params['email'])) {
             $validator = Validator::make([], []);
@@ -125,7 +125,7 @@ class UserService extends AbstractService
      * @param $params
      * @throws \Exception
      */
-    public function validadeOnUpdate($id, $params)
+    public function validateOnUpdate($id, $params)
     {
         if (isset($params['username'])) {
             $this->checkIfExistByUsername($params['username'], [$id]);
@@ -136,7 +136,7 @@ class UserService extends AbstractService
      * @param $id
      * @throws \Exception
      */
-    public function validadeOnDelete($id)
+    public function validateOnDelete($id)
     {
         if (\Auth::user()->id == $id) {
             throw new \Exception('Você não pode excluir seu próprio usuário');

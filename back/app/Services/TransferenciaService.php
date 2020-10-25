@@ -127,7 +127,7 @@ class TransferenciaService extends AbstractService
      * existente para finalizacao de uma transacao entre usuarios
      * @throws \Exception
      */
-    private function consultarServicoAutorizadorExterno()
+    private function consultarServicoAutorizadorExterno(): void
     {
         if (!$this->autorizadorExternoService->finalizarTransferencia()) {
             throw new \Exception(
@@ -143,7 +143,7 @@ class TransferenciaService extends AbstractService
      * @param $params
      * @throws \Exception
      */
-    private function atualizaCarteiraDoPagador($entity, $params)
+    private function atualizaCarteiraDoPagador($entity, $params): void
     {
         $idUsuarioPagador = $params['payer'];
         $valorTransferencia = $params['value'];
@@ -153,28 +153,12 @@ class TransferenciaService extends AbstractService
     }
 
     /**
-     * Validaçao de regra de negocio
-     * que diz que apenas usuarios
-     * fazem transferencia no sistema
-     * @param $params
-     * @throws \Exception
-     */
-    private function verificarSeUsuarioPagadorNaoEhLojista($params)
-    {
-        $idUsuarioPagador = $params['payer'];
-        $userPagador = $this->userService->find($idUsuarioPagador);
-        if ($userPagador->tipo_user_id === TipoUser::LOJISTA) {
-            throw new \Exception(TransferenciaExceptionMessages::$LOJISTAS_NAO_FAZEM_TRANSFERENCIA);
-        }
-    }
-
-    /**
      * Atualizacao da carteira do beneficiario
      * @param $entity
      * @param $params
      * @throws \Exception
      */
-    private function atualizaCarteiraDoBeneficiario($entity, $params)
+    private function atualizaCarteiraDoBeneficiario($entity, $params): void
     {
         $idUsuarioBeneficiario = $params['payee'];
         $valorTransferencia = $params['value'];
@@ -184,13 +168,29 @@ class TransferenciaService extends AbstractService
     }
 
     /**
+     * Validaçao de regra de negocio
+     * que diz que apenas usuarios
+     * fazem transferencia no sistema
+     * @param $params
+     * @throws \Exception
+     */
+    private function verificarSeUsuarioPagadorNaoEhLojista(array $params)
+    {
+        $idUsuarioPagador = $params['payer'];
+        $userPagador = $this->userService->find($idUsuarioPagador);
+        if ($userPagador->tipo_user_id === TipoUser::LOJISTA) {
+            throw new \Exception(TransferenciaExceptionMessages::$LOJISTAS_NAO_FAZEM_TRANSFERENCIA);
+        }
+    }
+
+    /**
      * Antes de transferir,
      * e importante saber se o usuario em questao
      * possui saldo suficiente na sua carteira.
      * @param $data
      * @throws \Exception
      */
-    private function verificarSeUsuarioPagadorTemSaldo($data)
+    protected function verificarSeUsuarioPagadorTemSaldo(array $data)
     {
         $carteiraUsuarioLogado = $this->userService->getUserAuth()->carteira;
         $valorTransferencia = $data['value'];
@@ -205,7 +205,7 @@ class TransferenciaService extends AbstractService
      * @param $data
      * @throws \Exception
      */
-    private function verificaSeTransferenciaSaoEntreUsuariosDiferentes($data)
+    protected function verificaSeTransferenciaSaoEntreUsuariosDiferentes(array $data): void
     {
         $payer = $data['payer'];
         $payee = $data['payee'];
@@ -221,7 +221,7 @@ class TransferenciaService extends AbstractService
      * @param $data
      * @throws \Exception
      */
-    private function verificaSeValorTransferidoEhMaiorQueZero($data)
+    protected function verificaSeValorTransferidoEhMaiorQueZero(array $data): void
     {
         $valor = Number::formatCurrencyBr($data['value']);
         if ($valor == "0.00") {
@@ -236,7 +236,7 @@ class TransferenciaService extends AbstractService
      * @param $data
      * @throws \Exception
      */
-    private function verificaSeUsuarioLogadoCondizComParametros($data)
+    protected function verificaSeUsuarioLogadoCondizComParametros(array $data): void
     {
         $idUserLogado = Auth::user()->id;
         if ($data['payer'] !== $idUserLogado) {

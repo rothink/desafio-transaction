@@ -20,7 +20,8 @@ abstract class AbstractService implements ServiceInterface
 
     /**
      * @param int $id
-     * @return array
+     * @param array $with
+     * @return mixed
      * @throws \Exception
      */
     public function find(int $id, $with = [])
@@ -49,7 +50,7 @@ abstract class AbstractService implements ServiceInterface
     public function save(array $data)
     {
         $data = $this->beforeSave($data);
-        if ($this->validadeOnInsert($data) !== false) {
+        if ($this->validateOnInsert($data) !== false) {
             $entity = $this->repository->create($data);
             $this->afterSave($entity, $data);
             return $entity;
@@ -69,7 +70,7 @@ abstract class AbstractService implements ServiceInterface
      */
     public function update($id, $data)
     {
-        $this->validadeOnUpdate($id, $data);
+        $this->validateOnUpdate($id, $data);
         $entity = $this->find($id);
         $this->afterUpdate($entity, $data);
         return $this->repository->update($entity, $data);
@@ -91,7 +92,7 @@ abstract class AbstractService implements ServiceInterface
      */
     public function delete(int $id)
     {
-        $this->validadeOnDelete($id);
+        $this->validateOnDelete($id);
         $this->beforeDelete($id);
         $this->repository->delete($id);
         $this->afterDelete($id);
@@ -119,7 +120,7 @@ abstract class AbstractService implements ServiceInterface
      * @param $params
      * @return bool
      */
-    public function validadeOnInsert($params)
+    public function validateOnInsert($params)
     {
 
     }
@@ -129,7 +130,7 @@ abstract class AbstractService implements ServiceInterface
      * @param $id
      * @param $params
      */
-    public function validadeOnUpdate($id, $params)
+    public function validateOnUpdate($id, $params)
     {
 
     }
@@ -138,7 +139,7 @@ abstract class AbstractService implements ServiceInterface
      * Validação ao deletar um registro
      * @param int $id
      */
-    public function validadeOnDelete(int $id)
+    public function validateOnDelete(int $id)
     {
         $result = $this->repository->find($id);
         if ($result == null) {

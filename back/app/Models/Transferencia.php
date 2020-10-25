@@ -10,6 +10,7 @@ class Transferencia extends Model
 {
     public $table = 'transferencia';
     public $timestamps = true;
+    protected $fillable = ['payer', 'payee', 'value'];
     protected $appends = [
         'data_transferencia_formatted'
     ];

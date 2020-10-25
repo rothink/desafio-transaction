@@ -36,6 +36,11 @@ class TransferenciaTest extends TestCase
             ->shouldReceive('update')
             ->andReturnTrue();
 
+        $this
+            ->mock(TransferenciaService::class)
+            ->shouldReceive('save')
+            ->with($payload)
+            ->andReturn(new Transferencia($payload));
 
         $transferencia = $this->save($payload);
 
@@ -45,6 +50,7 @@ class TransferenciaTest extends TestCase
     }
 
     /**
+     * @group test_transferir_saldo_insuficiente_exception
      * Exception de saldo insuficiente
      * @throws \Exception
      */
@@ -88,7 +94,7 @@ class TransferenciaTest extends TestCase
         $this->expectExceptionMessage(TransferenciaExceptionMessages::$USUARIO_PAGADOR_DIFERENTE_DO_USUARIO_LOGADO);
 
         $payload = $this->getPayload();
-        $userAuth = $this->findUserById($payload['payee']);
+        $userAuth = $this->getOtherUser();
         $this->be($userAuth);
 
         $this->save($payload);
@@ -105,7 +111,7 @@ class TransferenciaTest extends TestCase
 
         $payload = $this->getPayload();
 
-        $userAuth = $this->findUserById($payload['payer']);
+        $userAuth = $this->getPagador($payload['payer']);
         $this->be($userAuth);
 
         $payload['payee'] = $userAuth->id;
@@ -124,14 +130,13 @@ class TransferenciaTest extends TestCase
 
         $payload = $this->getPayload();
 
-//        $payload['payer'] = $this->getBeneficiario('beneficiario2@user.com')->id;
-
-        $userAuth = $this->findUserById($payload['payer']);
+        $userAuth = $this->getPagador();
         $this->be($userAuth);
 
         $userLojistaMock = new User();
         $userLojistaMock->tipo_user_id = TipoUser::LOJISTA;
-//
+
+
         $this
             ->mock(UserService::class)
             ->shouldReceive('find')
@@ -158,22 +163,9 @@ class TransferenciaTest extends TestCase
             ->andReturnFalse();
 
         $payload = $this->getPayload();
-
         $userAuth = $this->getPagador();
         $this->be($userAuth);
         $this->save($payload);
-    }
-
-    /**
-     * Retorna o usuario pelo ID
-     * @param $id
-     * @return User
-     * @throws \Exception
-     */
-    private function findUserById($id): User
-    {
-        $userService = app(UserService::class);
-        return $userService->find($id);
     }
 
     /**
@@ -201,7 +193,6 @@ class TransferenciaTest extends TestCase
             'carteira' => 100.00
         ];
         return new User($pagador);
-//        return factory(User::class)->create($pagador);
     }
 
     /**
@@ -219,7 +210,22 @@ class TransferenciaTest extends TestCase
             'carteira' => 10.000
         ];
         return new User($beneficiario);
-//        return factory(User::class)->create($beneficiario);
+    }
+
+    /**
+     * Busca um usuário diferente dos beneficiário e pagador
+     * @return User
+     */
+    private function getOtherUser(): User
+    {
+        $anotherUser = [
+            'id' => 3,
+            'name' => 'Outro usuário',
+            'email' => 'email@email.com',
+            'tipo_user_id' => TipoUser::COMUM,
+            'carteira' => 10.000
+        ];
+        return new User($anotherUser);
     }
 
     /**
