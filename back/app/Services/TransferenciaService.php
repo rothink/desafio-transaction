@@ -75,7 +75,7 @@ class TransferenciaService extends AbstractService
      * @param array $params
      * @throws \Exception
      */
-    public function afterSave($entity, $params)
+    public function afterSave($entity, array $params)
     {
         /**
          * Atualiza a carteira do payer

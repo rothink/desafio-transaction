@@ -18,8 +18,6 @@ class UserService extends AbstractService
      */
     protected $repository;
 
-    protected $roleRepository;
-
     public function __construct(
         UserRepository $userRepository
     )
@@ -28,13 +26,11 @@ class UserService extends AbstractService
     }
 
     /**
-     * @return array
-     * @throws \Exception
+     * @return \Illuminate\Contracts\Auth\Authenticatable|mixed|null
      */
     public function getUserAuth()
     {
         return Auth::user();
-//        return $this->fetchUser($user->getAuthIdentifier());
     }
 
     /**

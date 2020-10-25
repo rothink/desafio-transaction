@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * @OA\Info(
+ *    title="Desafio Transferência Entre Usuários",
+ *    version="1.0",
+ * )
+ */
 abstract class AbstractController extends Controller
 {
     protected $with = [];

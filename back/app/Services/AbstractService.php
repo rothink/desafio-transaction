@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 
 abstract class AbstractService implements ServiceInterface
 {
+    protected $with = [];
+
     /**
      * @param $data
      * @return mixed
@@ -57,7 +59,7 @@ abstract class AbstractService implements ServiceInterface
         }
     }
 
-    public function afterSave($entity, $params)
+    public function afterSave($entity, array $params)
     {
         return $entity;
     }

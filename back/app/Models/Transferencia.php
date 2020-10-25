@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
@@ -22,7 +23,7 @@ class Transferencia extends Model
      * @param $queryBuilder
      * @return mixed
      */
-    public function scopeQuery($queryBuilder)
+    public function scopeQuery(Builder $queryBuilder)
     {
         $queryBuilder->where('payer', auth()->user()->id);
         $queryBuilder->orWhere('payee', auth()->user()->id);
