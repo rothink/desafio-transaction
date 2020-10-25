@@ -10,14 +10,14 @@ class TransferenciaRepository extends AbstractRepository
 {
     protected $model;
 
-    public function all($params = null, $with = [])
-    {
-        return $this->model->with($with)->orderBy('created_at', 'desc')->query($params)->get();
-    }
-
     public function __construct(Transferencia $model)
     {
         $this->model = $model;
+    }
+
+    public function all($params = null, $with = [])
+    {
+        return $this->model->with($with)->orderBy('created_at', 'desc')->query($params)->get();
     }
 
     public function formatParams($params)

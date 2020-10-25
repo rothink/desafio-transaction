@@ -32,20 +32,24 @@ Route::group(['middleware' => 'auth:api'], function () {
      * User
      */
     Route::get('user/pre-requisite', 'UserController@preRequisite');
-    Route::resource('user', 'UserController');
+    Route::resource('user', 'UserController')->only([
+        'index', 'store'
+    ]);
 
     /**
      * Transaferecia / Transaction
      *
      * O método resource, engloba todo o REST
-     * GET transaction
-     * GET transaction/id
-     * POST transaction
-     * PUT transaction/id
-     * DELETE transaction/id
+     *  GET transaction - only
+     *  GET transaction/id
+     *  POST transaction - only
+     *  PUT transaction/id
+     *  DELETE transaction/id
      *
      * https://stackoverflow.com/questions/23505875/laravel-routeresource-vs-routecontroller
      */
     Route::get('transaction/pre-requisite', 'TransferenciaController@preRequisite');
-    Route::resource('transaction', 'TransferenciaController');
+    Route::resource('transaction', 'TransferenciaController')->only([
+        'index', 'store'
+    ]);
 });
