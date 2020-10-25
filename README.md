@@ -47,3 +47,7 @@
 - Executar os testes 
     >  
         docker exec -it back php artisan test
+        
+- Swagger API
+    >  
+        http://localhost:8000/api/documentation
