@@ -25,10 +25,10 @@ class UserRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required|unique',
+            'email' => 'required|unique:users',
             'tipo_user_id' => 'required',
-            'cpf' => '',
-            'cnpj' => '',
+            'cpf' => 'unique:users',
+            'cnpj' => 'unique:users',
         ];
     }
 
