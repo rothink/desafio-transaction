@@ -10,12 +10,13 @@ use Tests\TestCase;
 class TipoUserTest extends TestCase
 {
     use DatabaseTransactions;
+
     /**
      * A basic unit test example.
      *
      * @return void
      */
-    public function test_quantidade_tipo_user()
+    public function testQuantidadeTipoUser(): void
     {
         $tipoUsers = TipoUser::all();
         $this->assertEquals(2, count($tipoUsers));
@@ -24,18 +25,18 @@ class TipoUserTest extends TestCase
     /**
      * Test user comum
      */
-    public function test_tipo_user_comum()
+    public function testTipoUserComum(): void
     {
-        $tipoUserComum = TipoUser::where(['name'=>'Comum'])->get()->first();
+        $tipoUserComum = TipoUser::where(['name' => 'Comum'])->get()->first();
         $this->assertEquals(TipoUser::COMUM, $tipoUserComum->id);
     }
 
     /**
      * Teste usuário lojista
      */
-    public function test_tipo_user_lojista()
+    public function testTipoUserLojista(): void
     {
-        $tipoUserLojista = TipoUser::where(['name'=>'Lojista'])->get()->first();
+        $tipoUserLojista = TipoUser::where(['name' => 'Lojista'])->get()->first();
         $this->assertEquals(TipoUser::LOJISTA, $tipoUserLojista->id);
     }
 }

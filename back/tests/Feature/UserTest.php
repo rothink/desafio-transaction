@@ -2,14 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class TransferenciaTest extends TestCase
+class UserTest extends TestCase
 {
-
     /**
      * A basic feature test example.
      *
@@ -17,8 +15,7 @@ class TransferenciaTest extends TestCase
      */
     public function testUsuarioNaoLogado(): void
     {
-        $response = $this->get('/api/transaction');
+        $response = $this->get('/api/user');
         $response->assertStatus(302);
     }
 }
-
