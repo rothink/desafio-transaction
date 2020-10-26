@@ -141,7 +141,7 @@ class UserTest extends TestCase
             'cpf' => '025.999.777-25',
             'tipo_user_id' => TipoUser::COMUM
         ];
-        if($tipoUserLojista) {
+        if ($tipoUserLojista) {
             unset($user['cpf']);
             $user['cnpj'] = '226.588.389/0001-21';
             $user['tipo_user_id'] = TipoUser::LOJISTA;

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class Controller extends BaseController
 {
@@ -29,9 +30,9 @@ class Controller extends BaseController
      * @param int $status
      * @return \Illuminate\Http\JsonResponse
      */
-    public function error($message = null, $items = null, $status = 422)
+    public function error($message = null, $items = null, $status = Response::HTTP_UNPROCESSABLE_ENTITY)
     {
-        if(is_null($message)) {
+        if (is_null($message)) {
             $message = $this->messageErrorDefault;
         }
 
@@ -52,9 +53,9 @@ class Controller extends BaseController
      * @param int $status
      * @return \Illuminate\Http\JsonResponse
      */
-    public function success($message, $items = null, $status = 200)
+    public function success($message, $items = null, $status = Response::HTTP_OK)
     {
-        if(is_null($message)) {
+        if (is_null($message)) {
             $message = $this->messageSuccessDefault;
         }
 

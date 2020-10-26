@@ -7,7 +7,6 @@ use App\Models\TipoUser;
 use App\Repositories\UserRepository;
 use App\Services\ExceptionsMessages\UserExceptionMessages;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class UserService extends AbstractService
@@ -88,13 +87,13 @@ class UserService extends AbstractService
             throw new \Exception(UserExceptionMessages::$EMAIL_JA_CADASTRADO_NO_SISTEMA);
         }
 
-        if($params['tipo_user_id'] === TipoUser::COMUM) {
+        if ($params['tipo_user_id'] === TipoUser::COMUM) {
             if ($this->repository->existByCPF(Number::getOnlyNumber($params['cpf']))) {
                 throw new \Exception(UserExceptionMessages::$CPF_JA_CADASTRADO_NO_SISTEMA);
             }
         }
 
-        if($params['tipo_user_id'] === TipoUser::LOJISTA) {
+        if ($params['tipo_user_id'] === TipoUser::LOJISTA) {
             if ($this->repository->existByCNPJ(Number::getOnlyNumber($params['cnpj']))) {
                 throw new \Exception(UserExceptionMessages::$CNPJ_JA_CADASTRADO_NO_SISTEMA);
             }

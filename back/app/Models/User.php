@@ -4,12 +4,10 @@ namespace App\Models;
 
 use App\Interfaces\ModelInterface;
 use App\Notifications\MailResetPasswordNotification;
-use Doctrine\DBAL\Query\QueryBuilder;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
-use Laravel\Passport\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable implements ModelInterface
 {

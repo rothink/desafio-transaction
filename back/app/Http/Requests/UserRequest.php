@@ -37,8 +37,9 @@ class UserRequest extends FormRequest
      *
      * @return array
      */
-    public function attributes(){
-        return  [
+    public function attributes()
+    {
+        return [
             'name' => 'Nome',
             'email' => 'E-mail',
             'tipo_user_id' => 'Tipo de usuário',

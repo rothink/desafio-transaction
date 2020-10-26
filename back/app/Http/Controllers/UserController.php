@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Http\Resources\User as UserResource;
 use App\Services\UserService;
 use Illuminate\Http\Request;
-use \App\Http\Resources\User as UserResource;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends AbstractController
 {
@@ -92,7 +93,7 @@ class UserController extends AbstractController
      *          ),
      *      ),
      *      @OA\Response(
-     *          response=200,
+     *          response=201,
      *          description="Success",
      *      )
      *  )
@@ -101,7 +102,7 @@ class UserController extends AbstractController
     {
         try {
             $user = $this->service->cadastroExterno($request->all());
-            return $this->success($this->messageSuccessDefault, ['user' => $user]);
+            return $this->success($this->messageSuccessDefault, ['user' => $user], Response::HTTP_CREATED);
         } catch (\Exception $e) {
             return $this->error($e->getMessage());
         }

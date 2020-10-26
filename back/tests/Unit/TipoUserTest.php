@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use App\Models\TipoUser;
-use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
