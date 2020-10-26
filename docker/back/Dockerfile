@@ -1,4 +1,4 @@
-FROM php:7.2-fpm
+FROM php:7.3-fpm
 
 # Copy composer.lock and composer.json
 COPY ./back/composer.lock  ./back/composer.json /var/www/
@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -y \
     vim \
     unzip \
     git \
+    libzip-dev \
     curl
 
 # Clear cache
