@@ -9,21 +9,26 @@
     > 
         cd desafio-transaction
 
-- Cria o .env
+
+- Cria o .env (back e front)
     > 
-        cp back/.env.exemple back/.env
+        cp back/.env.exemple back/.env && cp front/.env.exemple front/.env
+
 
 - Cria o storage do laravel 
     > 
         mkdir -p ./back/storage/framework/{sessions,views,cache}
 
+
 - Permissão do storage do laravel 
     > 
-        sudo chmod 777 -R ./back/storage
+        sudo chmod 775 -R ./back/storage
+
 
 - Subir os serviços com docker
     > 
         docker-compose up --build -d
+
 
 - Instalar as dependências do backend
     > 
