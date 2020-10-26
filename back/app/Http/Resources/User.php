@@ -15,12 +15,21 @@ class User extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $arrayUser = [
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
             'carteira' => $this->carteira,
             'tipo_user' => new TipoUserResource(TipoUser::find($this->tipo_user_id))
         ];
+        if ($this->tipo_user_id === TipoUser::COMUM) {
+            $arrayUser['cpf'] = $this->cpf;
+        }
+
+        if ($this->tipo_user_id === TipoUser::LOJISTA) {
+            $arrayUser['cnpj'] = $this->cnpj;
+        }
+
+        return $arrayUser;
     }
 }

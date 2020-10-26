@@ -14,8 +14,8 @@ class Date
      */
     public static function formatToDataBase($date)
     {
-        if(!empty($date)) {
-            if(Carbon::hasFormat($date, 'Y-m-d')){
+        if (!empty($date)) {
+            if (Carbon::hasFormat($date, 'Y-m-d')) {
                 return Carbon::createFromFormat('Y-m-d', $date)->format('Y-m-d');
             }
             return Carbon::createFromFormat('d/m/Y', $date)->format('Y-m-d');
@@ -55,7 +55,7 @@ class Date
      */
     public static function formatToView($date)
     {
-        if(!empty($date)) {
+        if (!empty($date)) {
             return Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
         }
     }

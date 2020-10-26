@@ -9,9 +9,9 @@ use Illuminate\Validation\ValidationException;
 
 /**
  * @OA\Info(
- *    title="Desafio Transferência Entre Usuários",
- *    version="1.0",
- * )
+ *      title="Desafio Transferência Entre Usuários",
+ *      version="1.0",
+ *  )
  */
 abstract class AbstractController extends Controller
 {
@@ -20,7 +20,6 @@ abstract class AbstractController extends Controller
     protected $resource;
     protected $requestValidate;
     protected $requestValidateUpdate;
-
 
     /**
      * @param Request $request

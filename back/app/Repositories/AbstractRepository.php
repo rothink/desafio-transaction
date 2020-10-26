@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 abstract class AbstractRepository implements RepositoryInterface
 {
@@ -61,14 +62,17 @@ abstract class AbstractRepository implements RepositoryInterface
         return $this->model->findOrFail($id);
     }
 
-    public function findByUserAuth($params)
+    /**
+     * Usário logado
+     * @param $params
+     * @return mixed
+     */
+    public function findByUserAuth(array $params)
     {
         if (isset($params['id_user']) && !empty($params['id_user'])) {
             return $this->findOrFail($params['id_user']);
         }
-        /**
-         * @todo achar o usuario, mas se nao existir um id_user, retorna o usuario logado
-         */
+        return Auth::user()->id;
     }
 
     /**

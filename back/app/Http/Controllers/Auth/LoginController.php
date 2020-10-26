@@ -32,9 +32,8 @@ class LoginController extends Controller
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * LoginController constructor.
+     * @param UserService $userService
      */
     public function __construct(UserService $userService)
     {
@@ -43,9 +42,8 @@ class LoginController extends Controller
     }
 
     /**
-     * Redirect the user to the GitHub authentication page.
-     *
-     * @return \Illuminate\Http\Response
+     * @param $provider
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function redirectToProvider($provider)
     {

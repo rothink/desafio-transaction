@@ -28,7 +28,7 @@ class Number
 
         $source = array('.', ',');
         $replace = array('', '.');
-        if(strpos($get_valor,',')) {
+        if (strpos($get_valor, ',')) {
             $valor = str_replace($source, $replace, $get_valor); //remove os pontos e substitui a virgula pelo ponto
         } else {
             $valor = $get_valor;

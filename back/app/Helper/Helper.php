@@ -26,7 +26,7 @@ function envu($data = array())
         foreach ($env as $env_key => $env_value) {
             $entry = explode("=", $env_value, 2);
             if ($entry[0] === $key) {
-                $env[$env_key] = $key . "=" . (is_string($value) ? '"'.$value.'"' : $value);
+                $env[$env_key] = $key . "=" . (is_string($value) ? '"' . $value . '"' : $value);
             } else {
                 $env[$env_key] = $env_value;
             }
@@ -61,7 +61,7 @@ function validateDate($date)
 
 function getStartOfDate($date)
 {
-    return date('Y-m-d', strtotime($date)).' 00:00';
+    return date('Y-m-d', strtotime($date)) . ' 00:00';
 }
 
 /*
@@ -73,7 +73,7 @@ function getStartOfDate($date)
 
 function getEndOfDate($date)
 {
-    return date('Y-m-d', strtotime($date)).' 23:59';
+    return date('Y-m-d', strtotime($date)) . ' 23:59';
 }
 
 /*
@@ -87,7 +87,7 @@ function getDateFormat()
         return 'd-m-Y';
     } elseif (config('config.date_format') === 'DD/MM/YYYY') {
         return 'd/m/Y';
-     } elseif (config('config.date_format') === 'MM-DD-YYYY') {
+    } elseif (config('config.date_format') === 'MM-DD-YYYY') {
         return 'm-d-Y';
     } elseif (config('config.date_format') === 'DD-MMM-YYYY') {
         return 'd-M-Y';
@@ -146,9 +146,9 @@ function showDateTime($time = '')
 
     $date_format = getDateFormat();
     if (config('config.time_format') === 'H:mm') {
-        return date($date_format.',H:i', strtotime($time));
+        return date($date_format . ',H:i', strtotime($time));
     } else {
-        return date($date_format.',h:i a', strtotime($time));
+        return date($date_format . ',h:i a', strtotime($time));
     }
 }
 
@@ -171,6 +171,7 @@ function showTime($time = '')
         return date('h:i a', strtotime($time));
     }
 }
+
 //////////////////////////////////////////////////////////////////////// Date helper function ends
 
 //////////////////////////////////////////////////////////////////////// String helper function starts
@@ -287,7 +288,7 @@ function generateTranslatedSelectOption($data)
 {
     $options = array();
     foreach ($data as $key => $value) {
-        $options[] = ['name' => trans('list.'.$value), 'id' => $value];
+        $options[] = ['name' => trans('list.' . $value), 'id' => $value];
     }
     return $options;
 }
@@ -347,7 +348,7 @@ function formatNumber($number, $decimal_place = 2)
 
 function ipRange($network, $ip)
 {
-    $network=trim($network);
+    $network = trim($network);
     $orig_network = $network;
     $ip = trim($ip);
     if ($ip === $network) {
@@ -376,7 +377,7 @@ function ipRange($network, $ip)
     if ($d === false) {
         $ip_arr = explode('/', $network);
         if (!preg_match("@\d*\.\d*\.\d*\.\d*@", $ip_arr[0], $matches)) {
-            $ip_arr[0].=".0";
+            $ip_arr[0] .= ".0";
         }
         $network_long = ip2long($ip_arr[0]);
         $x = ip2long($ip_arr[1]);
@@ -385,9 +386,9 @@ function ipRange($network, $ip)
         return ($ip_long & $mask) === ($network_long & $mask);
     } else {
         $from = trim(ip2long(substr($network, 0, $d)));
-        $to = trim(ip2long(substr($network, $d+1)));
+        $to = trim(ip2long(substr($network, $d + 1)));
         $ip = ip2long($ip);
-        return ($ip>=$from and $ip<=$to);
+        return ($ip >= $from and $ip <= $to);
     }
 }
 
@@ -405,7 +406,7 @@ function validateIp($wl_ips)
     $allowedIps = array();
     foreach ($wl_ips as $wl_ip) {
         if ($wl_ip->end_ip) {
-            $allowedIps[] = $wl_ip->start_ip.'-'.$wl_ip->end_ip;
+            $allowedIps[] = $wl_ip->start_ip . '-' . $wl_ip->end_ip;
         } else {
             $allowedIps[] = $wl_ip->start_ip;
         }
@@ -492,11 +493,11 @@ function isTestMode()
 function getPostMaxSize()
 {
     if (is_numeric($postMaxSize = ini_get('post_max_size'))) {
-        return (int) $postMaxSize;
+        return (int)$postMaxSize;
     }
 
     $metric = strtoupper(substr($postMaxSize, -1));
-    $postMaxSize = (int) $postMaxSize;
+    $postMaxSize = (int)$postMaxSize;
 
     switch ($metric) {
         case 'K':
@@ -517,7 +518,7 @@ function getPostMaxSize()
 
 function getVar($list)
 {
-    $file = resource_path('var/'.$list.'.json');
+    $file = resource_path('var/' . $list . '.json');
 
     return (\File::exists($file)) ? json_decode(file_get_contents($file), true) : [];
 }
