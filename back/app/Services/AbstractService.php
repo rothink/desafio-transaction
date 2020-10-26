@@ -15,7 +15,7 @@ abstract class AbstractService implements ServiceInterface
      * @param $data
      * @return mixed
      */
-    public function getAll($params = null)
+    public function getAll(array $params = [])
     {
         return $this->repository->all($params, $this->with);
     }
@@ -26,7 +26,7 @@ abstract class AbstractService implements ServiceInterface
      * @return mixed
      * @throws \Exception
      */
-    public function find(int $id, $with = [])
+    public function find(int $id, array $with = [])
     {
         $result = $this->repository->find($id, $with);
         if ($result == null) {
@@ -70,7 +70,7 @@ abstract class AbstractService implements ServiceInterface
      * @return mixed
      * @throws \Exception
      */
-    public function update($id, $data)
+    public function update(int $id, array $data)
     {
         $this->validateOnUpdate($id, $data);
         $entity = $this->find($id);
@@ -78,12 +78,12 @@ abstract class AbstractService implements ServiceInterface
         return $this->repository->update($entity, $data);
     }
 
-    public function afterUpdate($entity, $params)
+    public function afterUpdate($entity, array $params)
     {
 
     }
 
-    public function beforeDelete($id)
+    public function beforeDelete(int $id)
     {
         return $id;
     }
@@ -110,7 +110,7 @@ abstract class AbstractService implements ServiceInterface
      * @param bool $withGenerateSelectOption
      * @return array
      */
-    public function toSelect($withGenerateSelectOption = true)
+    public function toSelect(bool $withGenerateSelectOption = true)
     {
         if ($withGenerateSelectOption) {
             return generateSelectOption($this->repository->list());
@@ -122,7 +122,7 @@ abstract class AbstractService implements ServiceInterface
      * @param $params
      * @return bool
      */
-    public function validateOnInsert($params)
+    public function validateOnInsert(array $params)
     {
 
     }
@@ -132,7 +132,7 @@ abstract class AbstractService implements ServiceInterface
      * @param $id
      * @param $params
      */
-    public function validateOnUpdate($id, $params)
+    public function validateOnUpdate(int $id, array $params)
     {
 
     }

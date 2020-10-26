@@ -21,6 +21,7 @@ class UserTableSeeder extends Seeder
             'email'=>'comum@user.com',
             'password'=> bcrypt('123456'),
             'tipo_user_id' => TipoUser::COMUM,
+            'cpf' => '01298536248',
             'created_at' => \Carbon\Carbon::now(),
             'carteira' => '10000.00'
         ]);
@@ -33,6 +34,7 @@ class UserTableSeeder extends Seeder
             'email'=>'lojista@user.com',
             'password'=> bcrypt('123456'),
             'tipo_user_id' => TipoUser::LOJISTA,
+            'cnpj' => '15849205495841',
             'created_at' => \Carbon\Carbon::now(),
             'carteira' => '10000.00'
         ]);

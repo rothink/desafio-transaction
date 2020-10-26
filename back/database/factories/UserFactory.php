@@ -25,6 +25,6 @@ $factory->define(User::class, function (Faker $faker) {
         'remember_token' => Str::random(10),
         'tipo_user_id' => rand(1,2),
         'created_at' => \Carbon\Carbon::now(),
-        'carteira' => '10000.00'
+        'carteira' => '5000.00'
     ];
 });

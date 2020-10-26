@@ -17,9 +17,10 @@ Route::middleware('auth:api')->get('/auth', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/user/cadastrar', 'UserController@cadastrar');
+Route::post('/user/cadastro-externo', 'UserController@cadastroExterno');
 Route::post('/user/recuperar-senha', 'Auth\ForgotPasswordController@sendResetLinkEmail');
 Route::post('/user/resetar-senha', 'Auth\ResetPasswordController@reset');
+Route::get('/user/pre-requisite', 'UserController@preRequisite');
 
 Route::group(['middleware' => 'auth:api'], function () {
 
@@ -31,7 +32,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     /**
      * User
      */
-    Route::get('user/pre-requisite', 'UserController@preRequisite');
+
     Route::resource('user', 'UserController')->only([
         'index', 'store'
     ]);

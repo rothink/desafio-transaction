@@ -11,7 +11,7 @@
                 <div id="formContent">
                     <div class="fadeIn first">
                         <v-avatar size="140">
-                            <img :src="getAvatarLogo()" alt="logo-minha-grana"/>
+                            <img :src="getAvatarLogo()" alt="logo-desafio"/>
                         </v-avatar>
                     </div>
                     <v-layout wrap>

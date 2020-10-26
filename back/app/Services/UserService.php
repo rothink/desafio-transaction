@@ -2,12 +2,10 @@
 
 namespace App\Services;
 
+use App\Helper\Number;
+use App\Models\TipoUser;
 use App\Repositories\UserRepository;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
@@ -18,11 +16,15 @@ class UserService extends AbstractService
      */
     protected $repository;
 
+    protected $tipoUserService;
+
     public function __construct(
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        TipoUserService $tipoUserService
     )
     {
         $this->repository = $userRepository;
+        $this->tipoUserService = $tipoUserService;
     }
 
     /**
@@ -60,10 +62,8 @@ class UserService extends AbstractService
      */
     public function save($params, $actionByUser = false)
     {
-        DB::beginTransaction();
         $this->validateOnInsert($params);
         $user = $this->repository->create($params);
-        DB::commit();
         return $user;
     }
 
@@ -72,149 +72,43 @@ class UserService extends AbstractService
      */
     public function preRequisite()
     {
-        $arr['sexo'] = generateSelectOption(['M' => 'Masculino', 'F' => 'Feminino']);
+        $arr['tipo_user'] = generateSelectOption($this->tipoUserService->getRepository()->list());
         return $arr;
     }
 
     /**
-     * @param $params
-     * @throws \Exception
-     */
-    public function validateOnInsert($params)
-    {
-        if ($this->repository->existByEmail($params['email'])) {
-            $validator = Validator::make([], []);
-            $validator->errors()->add('email', 'E-mail já cadastrado');
-            throw new ValidationException($validator);
-        }
-
-        if (isset($params['cpf'])) {
-            if ($this->repository->existByCPF($params['cpf'])) {
-                $validator = Validator::make([], []);
-                $validator->errors()->add('cpf', 'CPF já cadastrado');
-                throw new ValidationException($validator);
-            }
-        }
-
-        if (isset($params['username'])) {
-            $this->checkIfExistByUsername($params['username']);
-        }
-    }
-
-    /**
-     * Função que verifica se já existe um outro usuário pelo USERNAME
-     * @param $username
-     * @param array $id
+     * @param array $params
+     * @return bool|void
      * @throws ValidationException
      */
-    public function checkIfExistByUsername($username, $id = [])
-    {
-        if ($this->repository->existByUsername($username, $id)) {
-            $validator = Validator::make([], []);
-            $validator->errors()->add('username', 'Username já cadastrado');
-            throw new ValidationException($validator);
-        }
-    }
-
-    /**
-     * @param $id
-     * @param $params
-     * @throws \Exception
-     */
-    public function validateOnUpdate($id, $params)
-    {
-        if (isset($params['username'])) {
-            $this->checkIfExistByUsername($params['username'], [$id]);
-        }
-    }
-
-    /**
-     * @param $id
-     * @throws \Exception
-     */
-    public function validateOnDelete($id)
-    {
-        if (\Auth::user()->id == $id) {
-            throw new \Exception('Você não pode excluir seu próprio usuário');
-        }
-    }
-
-    /**
-     * @param $params
-     * @return \App\User|\Illuminate\Database\Eloquent\Model|mixed
-     * @throws \Exception
-     */
-    public function loginFacebook($params)
-    {
-        if (!$this->repository->existByEmail($params['email'])) {
-            $params = $this->formatParamsLoginFacebook($params);
-            $user = $this->save($params);
-        }
-        $user = $this->repository->findOrFailByEmail($params['email']);
-        return $user;
-    }
-
-    /**
-     * @param $params
-     * @return mixed
-     */
-    public function formatParamsLoginFacebook($params)
-    {
-        if (isset($params['sexo'])) {
-            if ($params['sexo'] == 'male') {
-                $params['sexo'] = 'M';
-            }
-            if ($params['sexo'] == 'female') {
-                $params['sexo'] = 'F';
-            }
-        }
-
-        if (isset($params['birthday']) && !empty($params['birthday'])) {
-            $params['birthday'] = Carbon::createFromFormat('m/d/Y', $params['birthday'])->toDateString();
-        }
-
-        $params['username'] = strtolower(strstr($params['email'], '@', true));
-
-        return $params;
-    }
-
-    /**
-     * Find by username
-     * @param string $username
-     * @return array
-     * @throws \Exception
-     */
-    public function findByUsername(string $username)
-    {
-        $user = $this->repository->findOrFailByUsername($username);
-        return $this->fetchUser($user->id);
-    }
-
-    /**
-     * @param $id
-     * @throws \Exception
-     */
-    public function verificarCadastroCompletoUser($id)
-    {
-        $user = $this->find($id);
-        if ($user->isEmpresario()) {
-            if (empty($user->cpf) || empty($user->sexo)) {
-                throw new \Exception('Cadastro incompleto! Por favor, complete seu cadastro');
-            }
-        }
-    }
-
-
-    public function cadastrar($params)
+    public function validateOnInsert(array $params)
     {
         if ($this->repository->existByEmail($params['email'])) {
-            throw new \Exception('O E-mail se encontra em nossa base de dados');
-        } else {
-            return $this->repository->createExterno($params);
+            throw new \Exception('E-mail já cadastrado');
         }
 
+        if($params['tipo_user_id'] === TipoUser::COMUM) {
+            if ($this->repository->existByCPF(Number::getOnlyNumber($params['cpf']))) {
+                throw new \Exception('CPF já cadastrado');
+            }
+        }
 
+        if($params['tipo_user_id'] === TipoUser::LOJISTA) {
+            if ($this->repository->existByCNPJ(Number::getOnlyNumber($params['cnpj']))) {
+                throw new \Exception('CNPJ já cadastrado');
+            }
+        }
     }
 
-
+    /**
+     * Cadastro externo
+     * @param array $params
+     * @return mixed
+     * @throws \Exception
+     */
+    public function cadastroExterno(array $params)
+    {
+        $this->validateOnInsert($params);
+        return $this->repository->createExterno($params);
+    }
 }

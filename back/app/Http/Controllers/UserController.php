@@ -5,11 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserRequest;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends AbstractController
 {
     protected $service;
     protected $requestValidate = UserRequest::class;
+
+    /**
+     * UserController constructor.
+     * @param UserService $userService
+     */
+    public function __construct(UserService $userService)
+    {
+        $this->service = $userService;
+    }
 
     /**
      * @OA\Get(
@@ -31,44 +41,17 @@ class UserController extends AbstractController
     }
 
     /**
-     * UserController constructor.
-     * @param UserService $userService
-     */
-    public function __construct(UserService $userService)
-    {
-        $this->service = $userService;
-    }
-
-    /**
-     * @param int $id
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
-     */
-    public function show(int $id)
-    {
-        return $this->ok($this->service->fetchUser($id));
-    }
-
-    /**
      * Cadastro externo de usuário
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function cadastrar(Request $request)
+    public function cadastroExterno(Request $request)
     {
         try {
-            $user = $this->service->cadastrar($request->all());
-            return $this->success('Cadastro efetuado com sucesso', ['user' => $user]);
+            $user = $this->service->cadastroExterno($request->all());
+            return $this->success($this->messageSuccessDefault, ['user' => $user]);
         } catch (\Exception $e) {
             return $this->error($e->getMessage());
         }
-    }
-
-    /**
-     * @param Request $request
-     */
-    public function recuperarSenha(Request $request)
-    {
-
     }
 }

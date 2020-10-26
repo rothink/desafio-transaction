@@ -79,52 +79,14 @@ class UserRepository extends AbstractRepository
      * @param $cpf
      * @return mixed
      */
-    public function existByCPF($cpf)
+    public function existByCPF(string $cpf)
     {
         return $this->model->where(['cpf' => $cpf])->exists();
     }
 
-    /**
-     * @param $username
-     * @return mixed
-     */
-    public function existByUsername($username, $idNotIn = null)
+    public function existByCNPJ(string $cnpj)
     {
-        if ($idNotIn) {
-            return $this->model->where(['username' => $username])->whereNotIn('id', $idNotIn)->exists();
-        }
-        return $this->model->where(['username' => $username])->exists();
-    }
-
-    /**
-     * @param User $user
-     * @param array $params
-     * @return User
-     */
-    public function update($user, $params = array())
-    {
-        $this->updateUser($user, $params);
-        return $user;
-    }
-
-    /**
-     * @param User $user
-     * @param $params
-     */
-    public function updateUser(User $user, $params)
-    {
-        parent::update($user, $params);
-    }
-
-    /**
-     * @param User $user
-     * @return bool|null
-     * @throws \Exception
-     */
-    public function delete($id)
-    {
-        $user = $this->find($id);
-        return $user->delete();
+        return $this->model->where(['cnpj' => $cnpj])->exists();
     }
 
     /**
@@ -143,16 +105,6 @@ class UserRepository extends AbstractRepository
     {
         $data = $this->formatParams($data, true);
         return $this->model->forceCreate($data);
-    }
-
-    /**
-     * NOT IN
-     * @param array $notIn
-     * @return mixed
-     */
-    public function whereNotIn(array $notIn)
-    {
-        return $this->model->whereNotIn('id', $notIn)->get();
     }
 
     /**
@@ -194,6 +146,10 @@ class UserRepository extends AbstractRepository
 
         if (isset($params['email'])) {
             $formatted['email'] = $params['email'];
+        }
+
+        if (isset($params['tipo_user_id'])) {
+            $formatted['tipo_user_id'] = $params['tipo_user_id'];
         }
 
         if (isset($params['carteira'])) {
