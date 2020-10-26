@@ -78,3 +78,11 @@
 - Aplicação
     >  
         http://localhost:8080
+        
+        Na tela de login, basta clicar no botão para auto preenchimento do formulário.
+        Ex:
+        
+        Para entrar como usuário comum, clique no botão escrito: USUÁRIO COMUM.
+        Para entrar como usuário lojista, clique no botão escrito: USUÁRIO LOJISTA.
+
+        
