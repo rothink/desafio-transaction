@@ -44,6 +44,7 @@ class TransferenciaTest extends TestCase
 
         $transferencia = $this->save($payload);
 
+        $this->assertTrue($transferencia instanceof Transferencia);
         $this->assertEquals($transferencia->payer, $payload['payer']);
         $this->assertEquals($transferencia->payee, $payload['payee']);
         $this->assertEquals($transferencia->value, $payload['value']);

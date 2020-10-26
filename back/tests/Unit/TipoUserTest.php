@@ -21,12 +21,18 @@ class TipoUserTest extends TestCase
         $this->assertEquals(2, count($tipoUsers));
     }
 
+    /**
+     * Test user comum
+     */
     public function test_tipo_user_comum()
     {
         $tipoUserComum = TipoUser::where(['name'=>'Comum'])->get()->first();
         $this->assertEquals(TipoUser::COMUM, $tipoUserComum->id);
     }
 
+    /**
+     * Teste usuário lojista
+     */
     public function test_tipo_user_lojista()
     {
         $tipoUserLojista = TipoUser::where(['name'=>'Lojista'])->get()->first();

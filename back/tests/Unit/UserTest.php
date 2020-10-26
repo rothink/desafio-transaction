@@ -33,6 +33,9 @@ class UserTest extends TestCase
         $this->assertEmpty($arrayCompared);
     }
 
+    /**
+     * Teste de criacao de user
+     */
     public function test_create_user()
     {
         $name = 'Rodrigo';
