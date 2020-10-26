@@ -149,7 +149,7 @@ class TransferenciaService extends AbstractService
         $valorTransferencia = $params['value'];
         $userPagador = $this->userService->find($idUsuarioPagador);
         $userPagador->carteira -= $valorTransferencia;
-        $this->userService->update($idUsuarioPagador, $userPagador);
+        $this->userService->update($idUsuarioPagador, $userPagador->toArray());
     }
 
     /**
@@ -164,7 +164,7 @@ class TransferenciaService extends AbstractService
         $valorTransferencia = $params['value'];
         $userBeneficiario = $this->userService->find($idUsuarioBeneficiario);
         $userBeneficiario->carteira += $valorTransferencia;
-        $this->userService->update($idUsuarioBeneficiario, $userBeneficiario);
+        $this->userService->update($idUsuarioBeneficiario, $userBeneficiario->toArray());
     }
 
     /**
